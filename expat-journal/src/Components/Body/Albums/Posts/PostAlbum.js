@@ -51,6 +51,9 @@ class Posts extends Component {
   //Get request to get posts for the list.//
 
     componentDidMount() {
+    const token = localStorage.getItem("params")
+    const params = {headers:{Authorization:token}}
+    console.log(token)
       axios
         .get(`https://expat-lambda.herokuapp.com/api/user/posts/:id`)
 

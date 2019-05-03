@@ -3,6 +3,8 @@ import axios from "axios";
 import { Route, Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
 
+//Styling
+
 const Wrapper = styled.div`
   width: 80%;
   padding-top: 4%;
@@ -54,6 +56,10 @@ class NewPost extends Component {
     };
   }
 
+
+
+
+
   //Change Handler//
 
   inputChangeHandler = e => {
@@ -63,20 +69,27 @@ class NewPost extends Component {
     });
   };
 
+//Post Request
+
   addNew = e => {
     e.preventDefault();
+    //Token
+    const token = localStorage.getItem("params")
+    const params = {headers:{Authorization:token}}
+    console.log(token)
     axios
       .post(
-        `https://expat-lambda.herokuapp.com/api/posts/post/create`,
-        this.state
+        `https://expat-lambda.herokuapp.com/api/posts`,
+        this.state, params
       )
       .then(response => {
+        console.log(response.data)
         this.props.addNoteOnServer(response.data);
       })
       .catch(err => console.log("Error", err));
     this.setState({
       title: "",
-      textBody: ""
+      description: ""
     });
   };
 
@@ -84,7 +97,7 @@ class NewPost extends Component {
     return (
       <Wrapper>
         <div className="createContainer">
-          <H2> Create New Post: </H2>{" "}
+          <H2> Create New Post: </H2>{""}
           <Form className="form" onSubmit={this.addNew}>
             <InputTitle
               className="title"
@@ -101,9 +114,9 @@ class NewPost extends Component {
               placeholder="Post Content"
               onChange={this.inputChangeHandler}
               value={this.state.textBody}
-            />{" "}
-            <Button type="submit"> Save </Button>{" "}
-          </Form>{" "}
+            />
+            <Button type="submit"> Save </Button>{""}
+          </Form>{""}
         </div>
       </Wrapper>
     );
